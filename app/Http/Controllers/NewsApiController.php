@@ -7,11 +7,6 @@ use Illuminate\Http\Request;
 
 class NewsApiController extends Controller {
 
-    public function __construct() {
-//        Auth::shouldUse('api');
-        $this->middleware('auth:api');
-    }
-
     /**
      * Display a listing of the resource.
      *

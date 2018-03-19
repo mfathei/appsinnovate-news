@@ -23,5 +23,14 @@ Route::group([
     Route::post('me', 'AuthController@me');
 });
 
-// News API
-Route::get('news', 'NewsApiController@index');
+Route::group([
+
+    'middleware' => 'auth:api'
+        ], function () {
+
+    // News API
+    Route::get('news', 'NewsApiController@index');
+    
+    
+});
+
