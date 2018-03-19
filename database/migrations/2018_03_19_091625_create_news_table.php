@@ -17,7 +17,7 @@ class CreateNewsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->text('body');
-            $table->string('photo');
+            $table->string('photo')->default('blue-jacket.jpg');
             $table->string('created_by')->default('System Administrator');
             $table->timestamps();
         });

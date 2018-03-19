@@ -8,11 +8,10 @@ use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller {
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -40,7 +39,21 @@ class NewsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        dd($request->body);
+
+        $this->validate($request, [
+            'title' => ['required', 'min:5', 'max:255', 'unique:news'],
+            'body' => ['required', 'max:3000']
+        ]);
+
+        $post = new News();
+        $post->title = request('title');
+        $post->body = request('body');
+        $post->photo = 'blue-jacket.jpg';
+
+        $post->save();
+
+
+        return redirect('/home');
     }
 
     /**
