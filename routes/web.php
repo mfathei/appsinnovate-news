@@ -25,4 +25,4 @@ Route::get('/news/create', 'NewsController@create');
 Route::post('/news/create', 'NewsController@store');
 Route::get('/news/edit/{id}', 'NewsController@edit');
 Route::post('/news/edit/{id}', 'NewsController@update');
-
+Route::get('/news/delete/{id}', 'NewsController@destroy');

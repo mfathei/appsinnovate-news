@@ -27,7 +27,7 @@
                             <label for="exampleInputPassword1">News Details</label>
                             <textarea class="form-control" id="summernote" name="body" required="" data-parsley-trigger="keyup" 
                                       data-parsley-minlength="20" data-parsley-maxlength="3000" 
-                                      data-parsley-minlength-message="Come on! You need to enter at least a 20 character details.." value="{{ $news->title }}"></textarea>
+                                      data-parsley-minlength-message="Come on! You need to enter at least a 20 character details.." value="{{ $news->body }}"></textarea>
                         </div>
                         <!--
                                                 <div class="form-group">
@@ -52,8 +52,19 @@
 
     $(document).ready(function () {
         $('#summernote').summernote({
-            height: 250
-        });
+  toolbar: [
+    // [groupName, [list of button]]
+    ['style', ['bold', 'italic', 'underline', 'clear']],
+    ['font', ['strikethrough', 'superscript', 'subscript']],
+    ['fontsize', ['fontsize']],
+    ['color', ['color']],
+    ['para', ['ul', 'ol', 'paragraph']],
+    ['height', ['height']]
+  ]
+});
+
+        $('#summernote').summernote('insertText', "{{ $news->body }}");
+
     });
 
     $(function () {

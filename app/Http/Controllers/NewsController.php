@@ -19,7 +19,7 @@ class NewsController extends Controller {
      */
     public function index() {
         $news = News::latest()->get();
-
+// dd($news);
         return view('home', compact('news'));
     }
 
@@ -99,7 +99,7 @@ class NewsController extends Controller {
 
         $news->save();
 
-        return redirect('/home');
+        return redirect('home');
         
     }
 
@@ -110,7 +110,8 @@ class NewsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        //
+        DB::table('news')->where('id', $id)->delete();
+        return redirect('/home');
     }
 
 }

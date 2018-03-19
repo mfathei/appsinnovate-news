@@ -3,7 +3,7 @@
         <img src="/img/{{ $post->photo }}" alt="" />
         <p>
             <strong>
-                <a href="/news/{{ $post->id }}">{{ $post->title }}</a>
+                <a href="/news/edit/{{ $post->id }}">{{ $post->title }}</a>
             </strong>
 
         <div class="pull-right">
