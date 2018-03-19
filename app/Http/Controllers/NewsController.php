@@ -41,7 +41,7 @@ class NewsController extends Controller {
     public function store(Request $request) {
 
         $this->validate($request, [
-            'title' => ['required', 'min:5', 'max:255', 'unique:news'],
+            'title' => ['required', 'min:5', 'max:255'],
             'body' => ['required', 'max:3000']
         ]);
 
@@ -63,7 +63,8 @@ class NewsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        //
+        $news = News::find($id);
+        return view('news.edit', compact('news'));
     }
 
     /**
@@ -73,7 +74,9 @@ class NewsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        //
+        $news = News::find($id);
+//        dd($news);
+        return view('news.edit', compact('news'));
     }
 
     /**
@@ -84,7 +87,20 @@ class NewsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        //
+        $this->validate($request, [
+            'title' => ['required', 'min:5', 'max:255'],
+            'body' => ['required', 'max:3000']
+        ]);
+
+        $news = News::find($id);
+        $news->title = request('title');
+        $news->body = request('body');
+//        $news->photo = 'blue-jacket.jpg';
+
+        $news->save();
+
+        return redirect('/home');
+        
     }
 
     /**
