@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\News;
 
 class NewsApiController extends Controller {
 
@@ -13,8 +14,9 @@ class NewsApiController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $arr = array('name' => 'mahdy');
-        var_dump(compact('arr'));
+        $news = News::latest()->get();
+        // dd($news);
+        return $news;
     }
 
     /**

@@ -21,8 +21,10 @@ Route::get('/home', 'NewsController@index')->name('home');
 
 
 Route::get('/news', 'NewsController@index');
+Route::get('/news/list', 'NewsController@list');
 Route::get('/news/create', 'NewsController@create');
 Route::post('/news/create', 'NewsController@store');
 Route::get('/news/edit/{id}', 'NewsController@edit');
 Route::post('/news/edit/{id}', 'NewsController@update');
 Route::get('/news/delete/{id}', 'NewsController@destroy');
+Route::post('/news/delete', 'NewsController@delete');

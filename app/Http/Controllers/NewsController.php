@@ -23,6 +23,12 @@ class NewsController extends Controller {
         return view('home', compact('news'));
     }
 
+    public function list() {
+        $news = News::latest()->get();
+// dd($news);
+        return view('news.index', compact('news'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -110,6 +116,12 @@ class NewsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
+        DB::table('news')->where('id', $id)->delete();
+        return redirect('/home');
+    }
+
+    public function delete(Request $request) {
+        $id = request('doctor-delete-id');
         DB::table('news')->where('id', $id)->delete();
         return redirect('/home');
     }

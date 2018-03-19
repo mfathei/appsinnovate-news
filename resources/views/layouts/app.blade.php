@@ -13,6 +13,7 @@
         <!-- Bootstrap core CSS -->
         <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="/summernote/dist/summernote.css" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('datatables/css/dataTables.bootstrap.min.css') }}">
 
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -44,6 +45,7 @@
                         <!-- Left Side Of Navbar -->
                         <ul class="nav navbar-nav">
                             &nbsp;
+                            <li><a href="/news/list">News Grid</a></li>
                         </ul>
 
                         <!-- Right Side Of Navbar -->
@@ -90,6 +92,8 @@
         <script src="{{ asset('bower_components/parsleyjs/dist/parsley.min.js') }}"></script>
 
         <script src="/summernote/dist/summernote.min.js"></script>
+        <script src="{{ asset('datatables/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('datatables/js/dataTables.bootstrap.min.js') }}"></script>
 
         @yield ('scripts')
 
