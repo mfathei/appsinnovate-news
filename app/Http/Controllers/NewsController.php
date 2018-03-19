@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\News;
 use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller {
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +21,7 @@ class NewsController extends Controller {
     public function index() {
         $news = News::latest()->get();
 
-        return view('welcome', compact('news'));
+        return view('home', compact('news'));
     }
 
     /**

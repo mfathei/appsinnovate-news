@@ -1,0 +1,13 @@
+
+/* ----------------------------------------------Generalise------------------------------------- */
+
+#header, #topline, #topbar, #breadcrumb, .container, #hpage_cats, #adblock, #socialise, #footer, #copyright{display:block; position:relative; margin:0 auto;}
+
+
+#hpage_cats{padding:0 0 5px 0;}
+#hpage_cats .fl_left, #hpage_cats .fl_right{display:block; width:100%; margin-bottom:15px;}
+#hpage_cats .fl_left img, #hpage_cats .fl_right img{float:left; margin:0 10px 0 0; padding:4px; border:1px solid #C7C5C8; clear:left;}
+#hpage_cats h2{display:block; width:100%; margin:0 0 15px 0; padding:5px 0; color:#666666; background-color:#EFEFEF; text-align:right; font-size:13px;}
+#hpage_cats h2 a{margin:0 5px 0 0; color:#059BD8; background-color:#EFEFEF; font-weight:bold; text-transform:uppercase;}
+#hpage_cats p{margin:0 0 8px 0; padding:0;}
+

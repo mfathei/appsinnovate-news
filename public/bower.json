@@ -1,0 +1,17 @@
+{
+  "name": "public",
+  "homepage": "https://github.com/mfathei/appsinnovate-news",
+  "authors": [
+    "Mohamed Mahdy <oracle.dev10g@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

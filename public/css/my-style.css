@@ -1,0 +1,19 @@
+.float-right{
+    float: right !important;
+}
+
+.container-fluid {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: 10px;
+    margin-left: 60px;
+}
+
+#hpage_cats .fl_left img{
+    width: 160px !important;
+    height: 140px !important;
+}
+
+#hpage_cats {
+    margin-bottom: 20px !important;
+}
