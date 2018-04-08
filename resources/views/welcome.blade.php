@@ -10,6 +10,8 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
+        <link rel="stylesheet" href="css/style.css">
+
         <!-- Styles -->
         <style>
             html, body {
@@ -79,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    <a href="manage-posts">Click Here to manage POSTS</a>
                 </div>
 
                 <div class="links">
@@ -91,5 +93,9 @@
                 </div>
             </div>
         </div>
+
+        <script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/scripts.js"></script>
+
     </body>
 </html>

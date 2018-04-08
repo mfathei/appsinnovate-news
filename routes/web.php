@@ -28,3 +28,9 @@ Route::get('/news/edit/{id}', 'NewsController@edit');
 Route::post('/news/edit/{id}', 'NewsController@update');
 Route::get('/news/delete/{id}', 'NewsController@destroy');
 Route::post('/news/delete', 'NewsController@delete');
+
+
+
+Route::get('/manage-posts', function () {
+    return view('posts.index');
+});
