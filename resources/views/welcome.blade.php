@@ -94,8 +94,17 @@
             </div>
         </div>
 
-        <script src="js/jquery-3.2.1.min.js"></script>
+        <!-- Scripts -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+        <!--<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>-->
+        
+        <script src="{{ asset('js/app.js') }}"></script>
         <script src="js/scripts.js"></script>
-
+        <script type="text/javascript">
+            $(document).ready(function(){
+                alert("gjnvfdgnf");
+            });
+        </script>
     </body>
 </html>

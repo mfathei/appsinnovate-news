@@ -1,3 +1,4 @@
+const TOKEN = "token";
 
 function setupEvents() {
     $("#my-notes").on("click", ".delete-note", deleteNote);
@@ -7,6 +8,26 @@ function setupEvents() {
 }
 
 // Methods
+function login() {
+    var data = {
+        "email": "admin@test.com",
+        "password": "admin1"
+    };
+
+    $.ajax({
+        url: "http://127.0.0.1:8000/api/auth/login",
+        method: 'POST',
+        data: data,
+        success: (response) => {
+            console.log('Congrats');
+        },
+        error: (error) => {
+            console.log("Error can't login");
+            console.log(error);
+        }
+    });
+}
+
 function deleteNote(e) {
     var thisNote = $(e.target).parents("li");
     $.ajax({

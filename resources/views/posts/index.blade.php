@@ -1,3 +1,9 @@
+
+<html>
+<head>
+    <title>Manage Posts</title>
+</head>
+<body>
 <?php
 
 
@@ -14,29 +20,24 @@
     </div>
 
     <ul class="min-list link-list" id="my-notes">
-        <?php
-            $myNotes = new WP_Query(array(
-                'post_type' => 'note',
-                'posts_per_page' => -1,
-                'author' => get_current_user_id()
-            ));
-
-            while($myNotes->have_posts()){
-                $myNotes->the_post(); ?>
-                <li data-id="<?php echo get_the_ID(); ?>">
-                    <input readonly class="note-title-field" type="text" value="<?php echo str_replace('Private: ','',esc_attr(get_the_title())); ?>">
-                    <span class="edit-note"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</span>
-                    <span class="delete-note"><i class="fa fa-trash-o" aria-hidden="true"></i>Delete</span>
-                    <textarea readonly class="note-body-field"><?php echo esc_textarea(get_the_content()); ?></textarea>
-                    <span class="update-note btn btn--blue btn--small"><i class="fa fa-arrow-right" aria-hidden="true"></i>Save</span>
-                </li>
-           <?php }
-        ?>
+        
     </ul>
+    <br>
+    <button onclick="login()" >Login</button>
   </div>
 
-   <script type="text/javascript">
-    $(document).ready(function(){
-        setupEvents();
-    });
-   </script>
+        <!-- Scripts -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+        <!--<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>-->
+        
+        <script src="{{ asset('js/app.js') }}"></script>
+        <script src="js/scripts.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                setupEvents();
+                // login();
+            });
+        </script>
+</body>
+</html>
