@@ -1,4 +1,3 @@
-const TOKEN = "token";
 
 function setupEvents() {
     $("#my-notes").on("click", ".delete-note", deleteNote);
@@ -20,6 +19,27 @@ function login() {
         data: data,
         success: (response) => {
             console.log('Congrats');
+            setToken(response.access_token);
+        },
+        error: (error) => {
+            console.log("Error can't login");
+            console.log(error);
+        }
+    });
+}
+
+function getPosts() {
+    var data = {
+        "token": getToken()
+    };
+
+    $.ajax({
+        url: "http://127.0.0.1:8000/api/news",
+        method: 'GET',
+        data: data,
+        success: (response) => {
+            console.log('Congrats');
+            showPosts(response);
         },
         error: (error) => {
             console.log("Error can't login");
@@ -139,4 +159,27 @@ function makeNoteReadonly(thisNote) {
     thisNote.find(".note-title-field, .note-body-field").attr("readonly", "readonly").removeClass("note-active-field");
     thisNote.find(".update-note").removeClass("update-note--visible");
     thisNote.attr("data-state", "readonly");
+}
+
+function showPosts(posts){
+    var list = $("#my-notes");
+    $(posts).each(function(){
+        list.append(`
+        <li data-id="${this.id}">
+            <input readonly class="note-title-field" type="text" value="${this.title}">
+            <span class="edit-note"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</span>
+            <span class="delete-note"><i class="fa fa-trash-o" aria-hidden="true"></i>Delete</span>
+            <textarea readonly class="note-body-field">${this.body}</textarea>
+            <span class="update-note btn btn--blue btn--small"><i class="fa fa-arrow-right" aria-hidden="true"></i>Save</span>
+        </li>
+        `);
+    });
+}
+
+function getToken(){
+    return localStorage.getItem("token");
+}
+
+function setToken(token){
+    localStorage.setItem("token", token);
 }

@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Manage Posts</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <?php
@@ -23,7 +24,7 @@
         
     </ul>
     <br>
-    <button onclick="login()" >Login</button>
+    <button onclick="getPosts()" >Login</button>
   </div>
 
         <!-- Scripts -->
@@ -36,7 +37,10 @@
         <script type="text/javascript">
             $(document).ready(function(){
                 setupEvents();
-                // login();
+                login();
+                setTimeout(() => {
+                    getPosts();
+                }, 1000);
             });
         </script>
 </body>
