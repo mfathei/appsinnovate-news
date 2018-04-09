@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class NewsApiController extends Controller
 {
@@ -38,7 +39,7 @@ class NewsApiController extends Controller
                 $file = $request->file("$i");
                 // var_dump($file); die();
                 if (move_uploaded_file($file->getRealPath(), $uploaddir . basename($file->getClientOriginalName()))) {
-                    $files[] = $uploaddir . $file->getClientOriginalName();
+                    $files[] = $file->getClientOriginalName();
                 } else {
                     $error = true;
                 }
@@ -69,7 +70,20 @@ class NewsApiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => ['required', 'min:5', 'max:255'],
+            'body' => ['required', 'max:3000']
+        ]);
+
+        $post = new News();
+        $post->title = request('title');
+        $post->body = request('body');
+        $post->photo = request("filenames")[0];
+
+        $post->save();
+
+        $data = array('success' => 'Post was created', 'data' => $post);
+        return json_encode($data);
     }
 
     /**
@@ -103,7 +117,20 @@ class NewsApiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'title' => ['required', 'min:5', 'max:255'],
+            'body' => ['required', 'max:3000']
+        ]);
+
+        $news = News::find($id);
+        $news->title = request('title');
+        $news->body = request('body');
+        //$news->photo = 'blue-jacket.jpg';
+
+        $news->save();
+
+        $data = array("success" => "Post updated", "data" => $news);
+        return json_encode($data);
     }
 
     /**
@@ -114,7 +141,9 @@ class NewsApiController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::table('news')->where('id', $id)->delete();
+        $data = array("success" => "Post deleted successfully", "data" => []);
+        return json_encode($data);
     }
 
 }

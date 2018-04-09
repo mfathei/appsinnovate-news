@@ -33,5 +33,6 @@ Route::group([
     // Posts API
     Route::post('/post/uploadpostphoto', 'NewsApiController@uploadFile');
     Route::post('/post/create', 'NewsApiController@store');
-
+    Route::put('/post/{id}', 'NewsApiController@update');
+    Route::delete('/post/{id}', 'NewsApiController@destroy');
 });

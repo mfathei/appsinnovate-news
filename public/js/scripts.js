@@ -1,9 +1,15 @@
+// Variable to store your files
+var files;
 
 function setupEvents() {
     $("#my-notes").on("click", ".delete-note", deleteNote);
     $("#my-notes").on("click", ".edit-note", editNote);
     $("#my-notes").on("click", ".update-note", updateNote);
-    $(".submit-note").on("click", createNote);
+    // $(".submit-note").on("click", createNote);
+    $('form').on('submit', uploadFiles);
+    // Add events
+    $('input[type=file]').on('change', prepareUpload);
+
 }
 
 // Methods
@@ -34,7 +40,7 @@ function getPosts() {
     };
 
     $.ajax({
-        url: "http://127.0.0.1:8000/api/news",
+        url: "/api/news",
         method: 'GET',
         data: data,
         success: (response) => {
@@ -52,9 +58,9 @@ function deleteNote(e) {
     var thisNote = $(e.target).parents("li");
     $.ajax({
         beforeSend: (xhr) => {
-            xhr.setRequestHeader('X-WP-Nonce', universityData.nonce);
+            xhr.setRequestHeader('Authorization', 'Bearer ' + getToken());
         },
-        url: universityData.root_url + '/wp-json/wp/v2/note/' + thisNote.data("id"),
+        url: '/api/post/' + thisNote.data("id"),
         type: 'DELETE',
         success: (response) => {
             thisNote.slideUp();
@@ -76,15 +82,15 @@ function updateNote(e) {
 
     var ourUpdatedPost = {
         'title': thisNote.find(".note-title-field").val(),
-        'content': thisNote.find(".note-body-field").val()
+        'body': thisNote.find(".note-body-field").val(),
     };
 
     $.ajax({
         beforeSend: (xhr) => {
-            xhr.setRequestHeader('token', universityData.nonce);
+            xhr.setRequestHeader('Authorization', 'Bearer ' + getToken());
         },
-        url: universityData.root_url + '/wp-json/wp/v2/note/' + thisNote.data("id"),
-        type: 'POST',
+        url: '/api/post/' + thisNote.data("id"),
+        type: 'PUT',
         data: ourUpdatedPost,
         success: (response) => {
             makeNoteReadonly(thisNote);
@@ -161,9 +167,9 @@ function makeNoteReadonly(thisNote) {
     thisNote.attr("data-state", "readonly");
 }
 
-function showPosts(posts){
+function showPosts(posts) {
     var list = $("#my-notes");
-    $(posts).each(function(key, value){
+    $(posts).each(function (key, value) {
         list.append(`
         <li data-id="${value.id}">
             <input readonly class="note-title-field" type="text" value="${value.title}">
@@ -171,38 +177,28 @@ function showPosts(posts){
             <span class="delete-note"><i class="fa fa-trash-o" aria-hidden="true"></i>Delete</span>
             <textarea readonly class="note-body-field">${value.body}</textarea>
             <span class="update-note btn btn--blue btn--small"><i class="fa fa-arrow-right" aria-hidden="true"></i>Save</span>
+            <a href="/uploads/${value.photo}" target='_blank'>Show photo</a>
         </li>
         `);
     });
 }
 
-function getToken(){
+function getToken() {
     return localStorage.getItem("token");
 }
 
-function setToken(token){
+function setToken(token) {
     localStorage.setItem("token", token);
 }
 
-
-// Variable to store your files
-var files;
-
-// Add events
-$('input[type=file]').on('change', prepareUpload);
-
 // Grab the files and set them to our variable
-function prepareUpload(event)
-{
-  files = event.target.files;
-  console.log(files);
+function prepareUpload(event) {
+    files = event.target.files;
+    console.log(files);
 }
 
-$('form').on('submit', uploadFiles);
-
 // Catch the form submit and upload the files
-function uploadFiles(event)
-{
+function uploadFiles(event) {
     event.stopPropagation(); // Stop stuff happening
     event.preventDefault(); // Totally stop stuff happening
 
@@ -210,9 +206,8 @@ function uploadFiles(event)
 
     // Create a formdata object and add the files
     var data = new FormData();
-    data.append("token", getToken());// add token
-    $.each(files, function(key, value)
-    {
+    data.append("token", getToken()); // add token
+    $.each(files, function (key, value) {
         data.append(key, value);
     });
 
@@ -224,21 +219,16 @@ function uploadFiles(event)
         dataType: 'json',
         processData: false, // Don't process the files
         contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-        success: function(data, textStatus, jqXHR)
-        {
-            if(typeof data.error === 'undefined')
-            {
+        success: function (data, textStatus, jqXHR) {
+            if (typeof data.error === 'undefined') {
                 // Success so call function to process the form
                 submitForm(event, data);
-            }
-            else
-            {
+            } else {
                 // Handle errors here
                 console.log('ERRORS: ' + data.error);
             }
         },
-        error: function(jqXHR, textStatus, errorThrown)
-        {
+        error: function (jqXHR, textStatus, errorThrown) {
             // Handle errors here
             console.log('ERRORS: ' + textStatus);
             // STOP LOADING SPINNER
@@ -246,48 +236,52 @@ function uploadFiles(event)
     });
 }
 
-function submitForm(event, data)
-{
-  // Create a jQuery object from the form
+function submitForm(event, data) {
+    // Create a jQuery object from the form
     $form = $(event.target);
 
     // Serialize the form data
     var formData = $form.serialize();
+    formData = formData + '&token=' + getToken();
+    // formData.append("token", getToken());// add token
 
     // You should sterilise the file names
-    $.each(data.files, function(key, value)
-    {
+    $.each(data.files, function (key, value) {
         formData = formData + '&filenames[]=' + value;
     });
 
     $.ajax({
-        url: 'submit.php',
+        url: '/api/post/create',
         type: 'POST',
         data: formData,
         cache: false,
         dataType: 'json',
-        success: function(data, textStatus, jqXHR)
-        {
-            if(typeof data.error === 'undefined')
-            {
+        success: function (response, textStatus, jqXHR) {
+            if (typeof response.error === 'undefined') {
                 // Success so call function to process the form
-                console.log('SUCCESS: ' + data.success);
-            }
-            else
-            {
+                var value = response.data;
+                $(".new-note-title, .new-note-body").val('');
+                $(`
+                <li data-id="${value.id}">
+                    <input readonly class="note-title-field" type="text" value="${value.title}">
+                    <span class="edit-note"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</span>
+                    <span class="delete-note"><i class="fa fa-trash-o" aria-hidden="true"></i>Delete</span>
+                    <textarea readonly class="note-body-field">${value.body}</textarea>
+                    <span class="update-note btn btn--blue btn--small"><i class="fa fa-arrow-right" aria-hidden="true"></i>Save</span>
+                    <a href="/uploads/${value.photo}">Show photo</a>
+                </li>
+                `).prependTo("#my-notes").hide().slideDown();
+            } else {
                 // Handle errors here
                 console.log('ERRORS: ' + data.error);
             }
         },
-        error: function(jqXHR, textStatus, errorThrown)
-        {
+        error: function (jqXHR, textStatus, errorThrown) {
             // Handle errors here
             console.log('ERRORS: ' + textStatus);
         },
-        complete: function()
-        {
+        complete: function () {
             // STOP LOADING SPINNER
         }
     });
 }
-
