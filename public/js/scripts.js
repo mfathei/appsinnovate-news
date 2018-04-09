@@ -268,7 +268,7 @@ function submitForm(event, data) {
                     <span class="delete-note"><i class="fa fa-trash-o" aria-hidden="true"></i>Delete</span>
                     <textarea readonly class="note-body-field">${value.body}</textarea>
                     <span class="update-note btn btn--blue btn--small"><i class="fa fa-arrow-right" aria-hidden="true"></i>Save</span>
-                    <a href="/uploads/${value.photo}">Show photo</a>
+                    <a href="/uploads/${value.photo}"  target='_blank'>Show photo</a>
                 </li>
                 `).prependTo("#my-notes").hide().slideDown();
             } else {
