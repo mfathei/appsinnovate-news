@@ -14,8 +14,14 @@
 
     <div class="create-note">
         <h2 class="headline headline--medium">Create New Note</h2>
-        <input class="new-note-title" placeholder="Title">
-        <textarea class="new-note-body" placeholder="Your note here..."></textarea>
+        <form>
+            <input class="new-note-title" placeholder="Title">
+            <textarea class="new-note-body" placeholder="Your note here..."></textarea>
+        
+            Photo: <input type="file" id="photo_input" name="photo_input"><br>
+        
+            <button class="submit-note" type="submit">Create Note</button>
+        </form>
         <span class="submit-note">Create Note</span>
         <span class="note-limit-message">Note limit reached: delete an existing note to make room for a new one.</span>
     </div>

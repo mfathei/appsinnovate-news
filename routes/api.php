@@ -12,7 +12,7 @@
  */
 
 Route::group([
-    'middleware' => ['api','cors'],
+    'middleware' => ['api', 'cors'],
     'prefix' => 'auth',
 ], function () {
 
@@ -24,10 +24,14 @@ Route::group([
 
 Route::group([
 
-    'middleware' => 'auth:api',
+    'middleware' => ['auth:api', 'cors'],
 ], function () {
 
     // News API
     Route::get('news', 'NewsApiController@index');
+
+    // Posts API
+    Route::post('/post/uploadpostphoto', 'NewsApiController@uploadFile');
+    Route::post('/post/create', 'NewsApiController@store');
 
 });

@@ -2335,3 +2335,7 @@ margin: 20px 0;
     border-bottom: none;
     margin-bottom: 0;
   }
+
+input[type="file"]{
+  margin-bottom: 10px;
+}
